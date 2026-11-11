@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAHD & DALO | Qureo Solver</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="stars" id="stars"></div>
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+            <div class="shape shape-6"></div>
+        </div>
+        <div class="gradient-overlay"></div>
+    </div>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <header class="header">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 100 100">
+                        <defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00f5d4"/><stop offset="50%" stop-color="#7b2ff7"/><stop offset="100%" stop-color="#ff2d87"/></linearGradient></defs>
+                        <circle cx="50" cy="50" r="45" fill="none" stroke="url(#lg)" stroke-width="3" class="logo-circle"/>
+                        <text x="50" y="42" text-anchor="middle" fill="url(#lg)" font-size="16" font-weight="bold">F&amp;D</text>
+                        <text x="50" y="65" text-anchor="middle" fill="url(#lg)" font-size="10">SOLVER</text>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>FAHD <span class="amp">&amp;</span> DALO</h1>
+                    <p class="subtitle">نظام الحل التلقائي لمنصة Qureo</p>
+                </div>
+            </div>
+            <div class="header-badge"><span class="badge-dot"></span><span>نظام آمن ومشفر</span></div>
+        </header>
+
+        <main class="main-content">
+            <!-- LOGIN -->
+            <section class="login-section" id="loginSection">
+                <div class="glass-card">
+                    <div class="card-header">
+                        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></div>
+                        <h2>تسجيل الدخول</h2>
+                        <p>أدخل بيانات حسابك على منصة Qureo</p>
+                    </div>
+                    <form id="loginForm" class="login-form">
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <div class="input-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+                                <input type="text" id="studentId" placeholder="رقم الطالب (Student ID)" required>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <div class="input-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+                                <input type="password" id="password" placeholder="كلمة المرور" required>
+                                <button type="button" class="toggle-pw" id="togglePw">👁️</button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="startBtn">
+                            <span>ابدأ الحل التلقائي</span>
+                            <span class="btn-icon">▶</span>
+                            <div class="btn-shimmer"></div>
+                        </button>
+                    </form>
+                    <div class="security-note">🔒 بياناتك محمية ولا يتم تخزينها</div>
+                </div>
+            </section>
+
+            <!-- PROGRESS -->
+            <section class="progress-section" id="progressSection" style="display:none">
+                <div class="glass-card">
+                    <div class="card-header">
+                        <div class="card-icon spinning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div>
+                        <h2 id="progressTitle">جاري العمل...</h2>
+                        <p id="progressSubtitle">يرجى الانتظار وعدم إغلاق الصفحة</p>
+                    </div>
+                    <div class="progress-ring-container">
+                        <svg class="progress-ring" viewBox="0 0 200 200">
+                            <defs><linearGradient id="pg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00f5d4"/><stop offset="100%" stop-color="#7b2ff7"/></linearGradient></defs>
+                            <circle class="ring-bg" cx="100" cy="100" r="85"/>
+                            <circle class="ring-fill" cx="100" cy="100" r="85" id="progressRing"/>
+                        </svg>
+                        <div class="ring-text">
+                            <span class="ring-pct" id="progressPct">0%</span>
+                            <span class="ring-label">مكتمل</span>
+                        </div>
+                    </div>
+                    <div class="progress-bar-wrap">
+                        <div class="progress-bar"><div class="progress-bar-fill" id="progressBar"></div></div>
+                    </div>
+                    <div class="status-box" id="statusBox">
+                        <div class="status-item active" id="currentStatus"><div class="status-dot"></div><span>في انتظار البدء...</span></div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card"><div class="stat-icon">📝</div><div class="stat-val" id="solvedCount">0</div><div class="stat-lbl">أسئلة محلولة</div></div>
+                        <div class="stat-card"><div class="stat-icon">📚</div><div class="stat-val" id="lessonCount">0/0</div><div class="stat-lbl">دروس مكتملة</div></div>
+                        <div class="stat-card"><div class="stat-icon">⏱️</div><div class="stat-val" id="timeElapsed">00:00</div><div class="stat-lbl">الوقت</div></div>
+                        <div class="stat-card"><div class="stat-icon">📊</div><div class="stat-val" id="statusStep">-</div><div class="stat-lbl">المرحلة</div></div>
+                    </div>
+                    <div class="activity-log">
+                        <h3>📋 سجل النشاط</h3>
+                        <div class="log-box" id="logBox"><div class="log-item"><span class="log-time">--:--</span><span class="log-msg">في انتظار البدء...</span></div></div>
+                    </div>
+                    <button class="btn btn-danger" id="stopBtn"><span>إيقاف الحل</span><span class="btn-icon">⏹</span></button>
+                </div>
+            </section>
+
+            <!-- SUCCESS -->
+            <section class="success-section" id="successSection" style="display:none">
+                <div class="glass-card success-card">
+                    <div class="checkmark-circle"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#00f5d4" stroke-width="3"/><path d="M30 50 L45 65 L70 35" fill="none" stroke="#00f5d4" stroke-width="4" stroke-linecap="round" class="check-path"/></svg></div>
+                    <h2>تم بنجاح! 🎉</h2>
+                    <p>تم حل جميع المهام والأسئلة بنجاح</p>
+                    <div class="final-stats">
+                        <div class="f-stat"><span class="f-val" id="finalSolved">0</span><span class="f-lbl">سؤال</span></div>
+                        <div class="f-stat"><span class="f-val" id="finalLessons">0</span><span class="f-lbl">درس</span></div>
+                        <div class="f-stat"><span class="f-val" id="finalTime">00:00</span><span class="f-lbl">الوقت</span></div>
+                    </div>
+                    <button class="btn btn-primary" id="restartBtn"><span>حل حساب آخر</span></button>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>صنع بـ ❤️ بواسطة <span class="hl">FAHD</span> &amp; <span class="hl">DALO</span></p>
+            <p class="footer-sub">© 2024</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
